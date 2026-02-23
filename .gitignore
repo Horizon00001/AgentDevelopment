@@ -2,7 +2,6 @@
 .env
 
 # Python
-test_subprocess.py
 __pycache__/
 *.py[cod]
 *$py.class
