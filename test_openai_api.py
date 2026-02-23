@@ -4,7 +4,7 @@ import dotenv
 dotenv.load_dotenv()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
-    base_url="https://api.deepseek.com"
+    base_url=os.getenv("BASE_URL"),
 )
 
 def call_ai(messages) -> str:
