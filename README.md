@@ -16,7 +16,8 @@ Agent Development/
 ├── test_openai_api.py  # API 调用封装
 ├── test_utils.py       # 文件操作和命令执行工具函数
 ├── prompt.txt          # 系统提示词
-├── .env                # 环境变量（API 密钥）
+├── .env                # 环境变量（API 密钥）- 需自行创建
+├── .env.example        # 环境变量模板
 ├── .gitignore          # Git 忽略文件配置
 └── README.md           # 项目说明文档
 ```
@@ -34,8 +35,11 @@ pip install openai python-dotenv
 
 ## 配置
 
-1. 在项目根目录创建 `.env` 文件
-2. 添加 API 配置：
+1. 复制 `.env.example` 文件为 `.env`：
+   ```bash
+   cp .env.example .env
+   ```
+2. 编辑 `.env` 文件，填入你的真实 API 密钥
 
 ```env
 OPENAI_API_KEY=your_api_key_here
