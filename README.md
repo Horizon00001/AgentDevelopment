@@ -12,9 +12,9 @@
 
 ```
 Agent Development/
-├── test_main.py        # 主程序入口
-├── test_openai_api.py  # API 调用封装
-├── test_utils.py       # 文件操作和命令执行工具函数
+├── main.py        # 主程序入口
+├── openai_api.py  # API 调用封装
+├── utils.py       # 文件操作和命令执行工具函数
 ├── prompt.txt          # 系统提示词
 ├── .env                # 环境变量（API 密钥）- 需自行创建
 ├── .env.example        # 环境变量模板
@@ -54,14 +54,14 @@ BASE_URL=https://api.deepseek.com
 | OpenAI       | `https://api.openai.com/v1` |
 | 其他兼容 API | 对应的 base_url               |
 
-**注意**：默认使用 `deepseek-chat` 模型，如需更换请修改 `test_openai_api.py` 中的 `model` 参数。
+**注意**：默认使用 `deepseek-chat` 模型，如需更换请修改 `openai_api.py` 中的 `model` 参数。
 
 ## 使用方法
 
 运行主程序：
 
 ```bash
-python test_main.py
+python main.py
 ```
 
 程序会调用 AI 模型，根据用户输入的任务自动执行文件操作。
@@ -97,6 +97,20 @@ AI 按照以下格式与系统交互：
 | `read_file(file_path)`           | 读取文件 | `read_file("a.txt")`           |
 | `write_file(file_path, content)` | 写入文件 | `write_file("a.txt", "hello")` |
 | `run_command(command)`           | 执行命令 | `run_command("ls -la")`        |
+
+## 效果展示
+
+查看文件夹文件
+
+![1771994156965](image/README/1771994156965.png)
+
+运行命令查看文件夹文件
+
+![1771994203240](image/README/1771994203240.png)
+
+将文件内容从中文改成英文
+
+![1771994406489](image/README/1771994406489.png)
 
 ## 注意事项
 

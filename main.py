@@ -1,17 +1,16 @@
 import pathlib
-import test_openai_api
-import test_utils
+import openai_api
+import utils
+system_prompt = ""
+with open(pathlib.Path(__file__).parent / "prompt.txt", "r", encoding="utf-8") as f:
+    system_prompt = f.read()
+messages=[
+    {"role": "system", "content": f"{system_prompt}"},
+]
 def run_agent(user_task: str) -> str:
-    system_prompt = ""
-    with open(pathlib.Path(__file__).parent / "prompt.txt", "r", encoding="utf-8") as f:
-        system_prompt = f.read()
-
-    messages=[
-            {"role": "system", "content": f"{system_prompt}"},
-            {"role": "user", "content": f"{user_task}"}
-        ]
+    messages.append({"role": "user", "content": f"{user_task}"})
     while True:
-        answer = test_openai_api.call_ai(messages)
+        answer = openai_api.call_ai(messages)
         if "<final_answer>" in answer:
             final_answer = answer.split("<final_answer>")[1].split("</final_answer>")[0]
             return final_answer
@@ -19,7 +18,7 @@ def run_agent(user_task: str) -> str:
             action = answer.split("<action>")[1].split("</action>")[0]
             if "read_file" in action:
                 file_path = action.split("read_file(")[1].rsplit(")", 1)[0].strip().strip('"\'')
-                result = test_utils.read_file(file_path)
+                result = utils.read_file(file_path)
             elif "write_file" in action:
                 # write_file("a.txt", "hello,world")
                 args = action.split("write_file(")[1].rsplit(")", 1)[0]
@@ -33,11 +32,22 @@ def run_agent(user_task: str) -> str:
                     result = "错误：write_file 需要两个参数"
             elif "run_command" in action:
                 command = action.split("run_command(")[1].rsplit(")", 1)[0].strip().strip('"\'')
-                result = test_utils.run_command(command)
+                result = utils.run_command(command)
         messages.append({"role": "assistant", "content": answer})
         observation = f"<observation>{result}</observation>"
         messages.append({"role": "user", "content": f"{observation}"})
-        print(messages)
+        print(answer)
 
-content = "hello,world"
-print(run_agent(f"我要在当前文件夹下的test.txt写入{content}"))
+if __name__ == "__main__":
+    print("╔" + "═"*50 + "╗")
+    print("║" + " "*11 + "🎉 欢迎使用文件管理Agent 🎉" + " "*11 + " ║")
+    print("╚" + "═"*50 + "╝")
+    print()
+    count = 0
+    while True:
+        count += 1
+        print(f"{'='*18}第 {count} 轮对话开始{'='*18}")
+        user_task = input("请输入任务：")
+        print(run_agent(user_task))
+        print(f"{'='*18}第 {count} 轮对话结束{'='*18}")
+        print()
